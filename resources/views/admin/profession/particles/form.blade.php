@@ -24,7 +24,15 @@
 
 <div class="form-group">
     <label for="">Slug</label>
-    <input class="form-control" type="text" placeholder="Автоматическая генерация" name="slug" value="{{$profession->slug ?? old('slug') ?? ''}}" readonly/>
+    <input class="form-control" type="text" name="slug"
+        @isset($profession->slug)
+            placeholder="Slug"
+            value="{{$profession->slug or 'err'}}"
+            readonly
+        @endisset
+        placeholder="Slug"
+        value="{{$profession->slug ?? old('slug') ?? ''}}"
+    />
 </div>
 
 <input class="btn btn-primary" type="submit" value="Сохранить"/>

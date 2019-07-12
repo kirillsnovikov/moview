@@ -17,7 +17,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return view('admin.country.index', ['countries' => Country::paginate(10)]);
+        return view('admin.country.index', ['countries' => Country::paginate(20)]);
     }
 
     /**
@@ -41,7 +41,7 @@ class CountryController extends Controller
      */
     public function store(StoreCountryRequest $request)
     {
-        dd($request);
+//        dd($request);
         $validated = $request->validated();
 //        redirect()->back()->with([
 //                'alert' => 'asdfafasdf',

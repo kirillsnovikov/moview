@@ -50,8 +50,6 @@ class ParsePerson extends Command
 
         $bar = $this->output->createProgressBar(count($files));
         foreach ($files as $file) {
-//            $file = Storage::disk('person')->get($file);
-//            dd($file);
             $this->parser->parseAndSave($file);
             $bar->advance();
         }
@@ -62,19 +60,16 @@ class ParsePerson extends Command
     protected function getAllFiles()
     {
         $this->info("\nGet All Urls in process!");
-//        $directories = Storage::disk('person')->directories();
-        $files = Storage::disk('person')->files('564');
-        return $files;
-        dd(count($files));
+        $directories = Storage::disk('person')->directories();
         $bar = $this->output->createProgressBar(count($directories));
+        $files = [];
         foreach ($directories as $directory) {
-            $files[] = Storage::disk('person')->files($directory);
+            $next_files = Storage::disk('person')->files($directory);
+            $files = array_merge($files, $next_files);
             $bar->advance();
+//            dd($files);
         }
         $bar->finish();
-        if (($delete_key = array_search('.gitignore', $files)) !== false) {
-            unset($files[$delete_key]);
-        }
         natsort($files);
         $this->info("\nGet All Urls is Done!");
         return $files;

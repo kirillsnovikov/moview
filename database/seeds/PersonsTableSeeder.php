@@ -46,7 +46,7 @@ class PersonsTableSeeder extends Seeder
                         'description' => $faker->realText(1000),
                         'description_short' => $faker->realText(200),
                         'sex' => $one_or_null,
-                        'tall' => $faker->numberBetween(160, 205),
+                        'height' => $faker->numberBetween(160, 205),
                         'birth_date' => $faker->date('Y-m-d', '2000-01-01'),
                         'country_birth_id' => $faker->numberBetween(1, 50),
                         'city_birth_id' => $faker->numberBetween(1, 50),

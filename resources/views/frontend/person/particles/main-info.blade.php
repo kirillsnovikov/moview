@@ -2,7 +2,7 @@
     <div class="main-info">
         <div class="flex-row">
             <div class="main-info__age">{{$age}}</div>
-            <div class="main-info__height"><i class="icon-height silver"></i>{{$person->tall}} см</div>
+            <div class="main-info__height"><i class="icon-height silver"></i>{{$person->height}} см</div>
             <div class="demography flex-row">
                 @if(isset($person->birth_date))
                 <div class="main-info__date flex-row">

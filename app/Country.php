@@ -14,6 +14,8 @@ class Country extends Model
         'slug',
         'description',
         'code_alpha2',
+        'code_alpha3',
+        'iso',
         'image',
         'image_show',
         'meta_title',

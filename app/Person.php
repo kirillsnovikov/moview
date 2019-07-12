@@ -10,13 +10,13 @@ class Person extends Model
 
     protected $table = 'persons';
     protected $guarded = ['professions'];
-    
+
     const MALE = 1;
     const FEMALE = 0;
 
     public function setSlugAttribute()
     {
-        $this->attributes['slug'] = mb_strtolower(Str::slug($this->firstname . '_' . $this->lastname . '_' . $this->id, '_'));
+        $this->attributes['slug'] = mb_strtolower(Str::slug(($this->name_en) ? $this->name_en : $this->name . '_' . $this->id, '_'));
     }
 
     public function professions()
