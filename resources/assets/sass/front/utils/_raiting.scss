@@ -1,0 +1,20 @@
+.kinopoisk {
+    color: $kinopoisk;
+    font-size: 1.25em;
+}
+
+.imdb {
+    color: $imdb;
+    font-size: 1.25em;
+}
+
+.raiting {
+    @extend %flex-row-center;
+    .kp-raiting {
+        font-weight: $font-bold;
+        margin-right: .5em;
+    }
+    .imdb-raiting {
+        font-weight: $font-bold;
+    }
+}

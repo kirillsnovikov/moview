@@ -1,0 +1,12 @@
+@mixin comma {
+    span {
+        &:after {
+            content: ', ';
+        }
+        &:last-child {
+            &:after {
+                content: '';
+            }
+        }
+    }
+}

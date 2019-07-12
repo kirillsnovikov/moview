@@ -1,0 +1,74 @@
+ul {
+    padding: 0;
+    margin: 0;
+    li{
+        padding: 0;
+        margin: 0;
+    }
+}
+
+ul.unstyled {
+    list-style: none;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.cursive {
+    font-style: italic;
+}
+
+.cursive-light {
+    @extend .cursive;
+    font-weight: $font-light;
+}
+
+.silver {
+    color: $old-silver;
+}
+
+.small {
+    font-size: .7em;
+}
+
+.title {
+    font-size: 1.625em;
+    margin-top: 0;
+    margin-bottom: .5em;
+    @include phone-only {
+        font-size: 1.1em;
+    }
+}
+
+.main-color {
+    color: $main-color;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.flex-row-center {
+    @extend %flex-row-center;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-row {
+    @extend %flex-row;
+}
+
+a.link-underline {
+    color: inherit;
+    text-decoration: underline;
+    &:hover {
+        color: $main-color;
+    }
+}

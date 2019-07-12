@@ -1,0 +1,10 @@
+//Swiper
+@import '~swiper/dist/css/swiper.css';
+
+.swiper-slide {
+    width: auto;
+}
+
+.swiper-pagination-bullet-active {
+    background: $main-color;
+}

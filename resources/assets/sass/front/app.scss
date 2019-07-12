@@ -1,0 +1,227 @@
+// import
+@import "mixins";
+@import "variables";
+@import "fonts";
+@import "utils";
+
+
+//Normalize.css
+@import '~normalize.css/normalize.css';
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main-content;
+}
+
+footer {
+    grid-area: footer;
+}
+
+#app {
+    font-family: $font-family;
+    color: $font-color;
+}
+
+%grid {
+    display: grid;
+}
+
+.wrap {
+    @extend %grid;
+    min-height: 100vh;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+    "header"
+    "main-content"
+    "footer";
+}
+
+%flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+%flex-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+%flex-row-center {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+%header-nav-flex {
+    @extend %flex-row-center;
+}
+
+%flex-grow-1 {
+    flex: 1;
+}
+
+%link {
+    a {
+        color: inherit;
+        text-decoration: none;
+        &:hover {
+            color: $main-color;
+            text-decoration: none;
+        }
+    }
+
+}
+
+%link-underline {
+    @extend %link;
+    a {
+        &:hover {
+            text-decoration: underline;
+            .link-no-styled {
+                color: $font-color;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.main-content{
+    padding: .5em;
+    background-color: $background-color;
+    @include tablet-landscape-up {
+        padding: 1em;
+    }
+}
+
+.main-page-content {
+    .main-page-slider {
+        margin: 1em 0;
+        padding: 1em 0;
+    }
+    h2 {
+        &:after {
+            content: ' / ';
+            white-space: pre;
+        }
+    }
+}
+
+.layout-loader {
+    height: 100%;
+    background:  $layout-loader;
+}
+
+.footer {
+    @extend %link;
+    background-color: $footer-background-color;
+    padding: 1em;
+    font-size: 2em;
+    color: $white;
+}
+
+.right-sidebar {
+    @extend %grid;
+    @include phone-only {
+        grid-template-columns: 100%;
+        grid-template-areas: "content"
+        "sidebar-right";
+    }
+    @include tablet-portrait-up {
+        grid-template-columns: 100%;
+        grid-template-areas: "content"
+        "sidebar-right";
+    }
+    @include tablet-landscape-up {
+        grid-template-columns: 1fr 300px;
+        grid-template-areas: "content sidebar-right";
+    }
+}
+
+.left-right-sidebar {
+    @extend %grid;
+    @include phone-only {
+        grid-template-columns: 100%;
+        grid-template-areas: "sidebar-left"
+        "content"
+        "sidebar-right";
+    }
+    @include tablet-portrait-up {
+        grid-template-columns: 100%;
+        grid-template-areas: "sidebar-left"
+        "content"
+        "sidebar-right";
+    }
+    @include tablet-landscape-up {
+        grid-template-columns: 1fr 300px;
+        grid-template-areas: "sidebar-left sidebar-left"
+        "content sidebar-right";
+    }
+    @include desktop-up {
+        grid-template-columns: 300px 1fr 300px;
+        grid-template-areas: "sidebar-left content sidebar-right";
+    }
+}
+
+section.content-block {
+    grid-area: content;
+    .content {
+        @extend %flex-row;
+        .properties {
+            @extend %flex-grow-1;
+            @extend %link-underline;
+            flex: 1;
+            margin-left: .5em;
+            h1 {
+                margin: 0;
+                @include phone-only {
+                    font-size: 1.2em;
+                }
+            }
+            a {
+                text-decoration: underline;
+            }
+            .player {
+                margin-top: 1em;
+            }
+            @include tablet-portrait-up {
+                margin-left: 1em;
+            }
+            @include big-desktop-up {
+                margin-left: 2em;
+            }
+        }
+    }
+}
+
+aside.sidebar-left {
+    grid-area: sidebar-left;
+}
+aside.sidebar-right {
+    grid-area: sidebar-right;
+}
+
+.sidebar {
+    @extend %link-underline;
+    ul {
+        padding: .5em 0;
+        li {
+            a {
+                display: block;
+                padding: .5em;
+            }
+        }
+        li.active {
+            color: $main-color;
+            font-weight: $font-bold;
+        }
+    }
+    .title {
+        font-size: 1.2em;
+        padding: 0 0 .5em .5em;
+        border-bottom: 2px solid $main-color;
+    }
+}
