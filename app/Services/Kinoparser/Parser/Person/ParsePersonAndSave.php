@@ -10,6 +10,7 @@ namespace App\Services\Kinoparser\Parser\Person;
 
 use App\Country;
 use App\Person;
+use App\Profession;
 use App\Services\Kinoparser\Parser\XpathParser;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,14 +36,13 @@ class ParsePersonAndSave
     public function parseAndSave($file)
     {
         $data = Storage::disk('person')->get($file);
-
         $error_page = $this->parser->parse($data, './/div[class=\'error-page\']');
         $actor = $this->parser->parse($data, './/table[@class=\'info\']//a[@href = \'#actor\']');
         $director = $this->parser->parse($data, './/table[@class=\'info\']//a[@href = \'#director\']');
         $count_films = (int) rtrim($this->parser->parse($data, './/table[@class=\'info\']//td[. = \'всего фильмов\']/following-sibling::td/text()[normalize-space()]')[0], ',');
         $kp_id = pathinfo($file, PATHINFO_FILENAME);
-
         $result = [];
+        
         if (($actor || $director) && !$error_page && $count_films >= 10) {
             $name = $this->parser->parse($data, './/h1[@itemprop=\'name\']');
             $name_en = $this->parser->parse($data, './/span[@itemprop=\'alternateName\']');
@@ -62,12 +62,29 @@ class ParsePersonAndSave
             $result['slug'] = null;
             $result['published'] = 1;
             $result['kp_id'] = $kp_id;
-        }
 
-        $person = Person::updateOrCreate($result);
-        $person->update(['slug' => null]);
-        (!empty($actor)) ? $person->professions()->attach(1) : false;
-        (!empty($director)) ? $person->professions()->attach(2) : false;
+            $this->save($result, $actor, $director);
+        }
+    }
+
+    /**
+     * 
+     * @param type $result
+     * @param type $actor
+     * @param type $director
+     */
+    protected function save($result, $actor = null, $director = null)
+    {
+        if (!Person::where('kp_id', $result['kp_id'])->first()) {
+            $person = Person::create($result);
+            $person->update(['slug' => null]);
+            
+            $profession_actor = Profession::whereSlug('actor')->first();
+            $profession_director = Profession::whereSlug('director')->first();
+            
+            (!empty($actor)) ? $person->professions()->attach($profession_actor->id) : false;
+            (!empty($director)) ? $person->professions()->attach($profession_director->id) : false;
+        }
     }
 
     /**

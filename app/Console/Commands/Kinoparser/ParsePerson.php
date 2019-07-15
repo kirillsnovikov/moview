@@ -60,6 +60,9 @@ class ParsePerson extends Command
     protected function getAllFiles()
     {
         $this->info("\nGet All Urls in process!");
+//        $files = Storage::disk('person')->files('563');
+//        dd($files);
+//        return $files;
         $directories = Storage::disk('person')->directories();
         $bar = $this->output->createProgressBar(count($directories));
         $files = [];

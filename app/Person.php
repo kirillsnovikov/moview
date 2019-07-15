@@ -16,7 +16,7 @@ class Person extends Model
 
     public function setSlugAttribute()
     {
-        $this->attributes['slug'] = mb_strtolower(Str::slug(($this->name_en) ? $this->name_en : $this->name . '_' . $this->id, '_'));
+        $this->attributes['slug'] = mb_strtolower(Str::slug((($this->name_en) ? $this->name_en : $this->name) . '_' . $this->id, '_'));
     }
 
     public function professions()
