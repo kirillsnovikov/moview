@@ -39,7 +39,8 @@ class ParsePersonAndSave
         $error_page = $this->parser->parse($data, './/div[class=\'error-page\']');
         $actor = $this->parser->parse($data, './/table[@class=\'info\']//a[@href = \'#actor\']');
         $director = $this->parser->parse($data, './/table[@class=\'info\']//a[@href = \'#director\']');
-        $count_films = (int) rtrim($this->parser->parse($data, './/table[@class=\'info\']//td[. = \'всего фильмов\']/following-sibling::td/text()[normalize-space()]')[0], ',');
+        $count = $this->parser->parse($data, './/table[@class=\'info\']//td[. = \'всего фильмов\']/following-sibling::td/text()[normalize-space()]');
+        (!empty($count)) ? $count_films = (int) rtrim($count[0], ',') : $count_films = 0;
         $kp_id = pathinfo($file, PATHINFO_FILENAME);
         $result = [];
         
