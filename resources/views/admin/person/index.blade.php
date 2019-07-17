@@ -28,7 +28,7 @@
         @forelse($persons as $person)
         <tr>
             <th scope="row">{{ $person->id }}</th>
-            <td>{{ str_limit($person->name, 30) }}</td>
+            <td><a href="{{route('person', $person->slug)}}" target="_blank">{{ str_limit($person->name, 30) }}</a></td>
             <td>{{ str_limit($person->slug, 10) }}</td>
             <td>{{ $person->userCreated()->pluck('name')->implode(', ') }}</td>
             <td>@if($modified_by)

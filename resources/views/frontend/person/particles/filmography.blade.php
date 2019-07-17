@@ -1,3 +1,4 @@
+@if(count($person->directors) || count($person->actors))
 <section class="filmography-block">
     <div class="filmography">
         <p class="title main-color">Фильмография:</p>
@@ -11,3 +12,4 @@
         @endif
     </div>
 </section>
+@endif

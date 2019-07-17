@@ -13,8 +13,8 @@ class BlogController extends Controller
 
     public function index()
     {
-        $films = Type::where('title', 'фильмы')->first();
-        $serials = Type::where('title', 'сериалы')->first();
+        $films = Type::where('title', 'фильмы')->firstOrFail();
+        $serials = Type::where('title', 'сериалы')->firstOrFail();
         return view('frontend.index', [
             'films' => Movie::where('type_id', $films->id)->where('published', 1)->orderBy('premiere', 'desc')->take(18)->get(),
             'serials' => Movie::where('type_id', $serials->id)->where('published', 1)->orderBy('premiere', 'desc')->take(18)->get(),
@@ -62,7 +62,7 @@ class BlogController extends Controller
                 ->with('directors')
                 ->with('genres')
                 ->where('published', 1)
-                ->first();
+                ->firstOrFail();
 
         return view('frontend.movie.movie', compact('movie'));
     }
@@ -75,9 +75,10 @@ class BlogController extends Controller
                 ->with('actors')
                 ->with('directors')
                 ->where('published', 1)
-                ->first();
+                ->firstOrFail();
 
         $age = $this->getAge($person->birth_date, $person->death_date);
+//        dd($age);
 
 //        dd($person);
 //        $fullname = $person->firstname . ' ' . $person->lastname;

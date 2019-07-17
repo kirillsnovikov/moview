@@ -1162,6 +1162,7 @@ img {
 }
 
 .description-block {
+  width: 100%;
   padding: 1em 0;
   border-top: 1px solid #82877C;
   margin-top: 1em;
@@ -1444,6 +1445,7 @@ img {
 
 .info .main-info__country span:after {
   content: ', ';
+  white-space: pre;
 }
 
 .info .main-info__country span:last-child:after {
@@ -1460,6 +1462,7 @@ img {
 
 .info .main-info__genre span:after {
   content: ', ';
+  white-space: pre;
 }
 
 .info .main-info__genre span:last-child:after {
@@ -1482,9 +1485,13 @@ img {
   content: ')';
 }
 
-.info .main-info__date:after {
+.info .main-info .demography span:after {
   content: ', ';
   white-space: pre;
+}
+
+.info .main-info .demography span:last-child:after {
+  content: '';
 }
 
 .info .main-info__date__death:before {
@@ -1497,6 +1504,7 @@ img {
 
 .info .main-info__profession span:after {
   content: ', ';
+  white-space: pre;
 }
 
 .info .main-info__profession span:last-child:after {
@@ -1513,6 +1521,7 @@ img {
 
 .info .other-info__director__value span:after {
   content: ', ';
+  white-space: pre;
 }
 
 .info .other-info__director__value span:last-child:after {
@@ -1529,6 +1538,7 @@ img {
 
 .info .other-info__actor__value span:after {
   content: ', ';
+  white-space: pre;
 }
 
 .info .other-info__actor__value span:last-child:after {
