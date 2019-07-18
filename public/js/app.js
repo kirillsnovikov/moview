@@ -21600,6 +21600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['videos', 'route'],
@@ -21626,6 +21627,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
+        console.log(this.videos);
         var layoutLoader = document.querySelector('.layout-loader');
         var hiddens = document.querySelectorAll('.hidden');
         var images = document.querySelectorAll('.card-poster img');
@@ -21669,6 +21671,11 @@ var render = function() {
                   attrs: { href: _vm.route + "/" + video.slug }
                 },
                 [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(index) +
+                      "\n                    "
+                  ),
                   _c("img", {
                     staticClass: "lazy-load-image",
                     attrs: {
@@ -21702,7 +21709,7 @@ var render = function() {
                         _c("i", { staticClass: "icon-imdb imdb" }),
                         _vm._v(" "),
                         _c("div", [
-                          _vm._v(_vm._s(_vm._f("raiting")(video.kp_raiting)))
+                          _vm._v(_vm._s(_vm._f("raiting")(video.imdb_raiting)))
                         ])
                       ])
                     ])

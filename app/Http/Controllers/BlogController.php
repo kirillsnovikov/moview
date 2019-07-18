@@ -13,12 +13,31 @@ class BlogController extends Controller
 
     public function index()
     {
-        $films = Type::where('title', 'фильмы')->firstOrFail();
-        $serials = Type::where('title', 'сериалы')->firstOrFail();
-        return view('frontend.index', [
-            'films' => Movie::where('type_id', $films->id)->where('published', 1)->orderBy('premiere', 'desc')->take(18)->get(),
-            'serials' => Movie::where('type_id', $serials->id)->where('published', 1)->orderBy('premiere', 'desc')->take(18)->get(),
-        ]);
+        $type_films = Type::where('title', 'фильмы')->with('movies')->first();
+        $type_serials = Type::where('title', 'сериалы')->with('movies')->first();
+        $films = [];
+        $serials = [];
+        if ($type_films) {
+            $films = $type_films
+                    ->movies
+                    ->where('published', 1)
+                    ->where('kp_raiting', '>', 7)
+                    ->sortBy('premiere')
+                    ->take(18)
+                    ->values()
+                    ->all();
+        }
+        if ($type_serials) {
+            $serials = $type_serials
+                    ->movies
+                    ->where('published', 1)
+                    ->where('kp_raiting', '>', 7)
+                    ->sortBy('premiere')
+                    ->take(18)
+                    ->values()
+                    ->all();
+        }
+        return view('frontend.index', compact(['films', 'serials']));
     }
 
     public function type($type_slug)
@@ -79,7 +98,6 @@ class BlogController extends Controller
 
         $age = $this->getAge($person->birth_date, $person->death_date);
 //        dd($age);
-
 //        dd($person);
 //        $fullname = $person->firstname . ' ' . $person->lastname;
 //        $actor_movie = Movie::whereHas('actors', function ($query) use ($person_slug) {
@@ -142,7 +160,7 @@ class BlogController extends Controller
         if ($age) {
             return $age . ' ' . ((($m == 1) && ($l != 11)) ? 'год' : ((($m == 2) && ($l != 12) || ($m == 3) && ($l != 13) || ($m == 4) && ($l != 14)) ? 'года' : 'лет'));
         }
-        
+
         return '';
     }
 

@@ -5,6 +5,7 @@
             <div class="card-slider">
                 <div class="card-poster">
                     <a :href="route + '/' + video.slug" class="card-link-poster">
+                        {{index}}
                         <img class="lazy-load-image"
                         :src="'data:image/gif;base64,R0lGODlhAgADAIAAAP///wAAACH5BAEAAAEALAAAAAACAAMAAAICjF8AOw=='"
                         :data-src="'https://loremflickr.com/250/375/art/?random=' + video.image"
@@ -21,7 +22,7 @@
                                 </div>
                                 <div class="flex-row-center">
                                     <i class="icon-imdb imdb"></i>
-                                    <div>{{video.kp_raiting | raiting}}</div>
+                                    <div>{{video.imdb_raiting | raiting}}</div>
                                 </div>
                             </div>
                         </div>
@@ -79,6 +80,7 @@
             }
         },
         mounted() {
+            console.log(this.videos);
             let layoutLoader = document.querySelector('.layout-loader');
             let hiddens = document.querySelectorAll('.hidden');
             let images = document.querySelectorAll('.card-poster img');
