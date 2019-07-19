@@ -8,9 +8,12 @@
 
 namespace App\Services\Kinoparser\Person;
 
+use App\Person;
 use App\Services\Kinoparser\Data\Layouts\CurlKinopoiskDefault;
 use App\Services\Kinoparser\Parser\XpathParser;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 /**
  * Description of PersonImageGetter
@@ -37,23 +40,37 @@ class PersonImageGetter
         $this->parser = $parser;
     }
 
-    public function putImageInFile($filename, $imagename)
+    public function putImageInFile($person)
     {
+        $filename = ceil($person->kp_id / 10000) . '/' . $person->kp_id . '.html';
         $data = Storage::disk('person')->get($filename);
-        $disk = Storage::disk('public');
-        $temp_path = Storage::disk('public')->path('asdf');
-        dd($temp_path);
         $src = $this->parser->parse($data, './/img[@itemprop=\'image\']/@src');
         (!empty($src)) ? $img_url = $src[0] : $img_url = null;
 
-        if ($img_url && strcasecmp($img_url, 'photo_none') != 0) {
-            $data = file_get_contents($img_url);
-            $temp_image = Image::make($data)->resize(100);
-            $path = $disk->put('test.jpg', $data);
-            dd($path);
-//            dd($data);
+        $sizes = [
+            'sm' => 100,
+            'md' => 150,
+            'lg' => 200,
+        ];
+//        dd(($img_url && !preg_match('/PHOTO_NONE/i', $img_url)));
+
+        if ($img_url && !preg_match('/photo_none/i', $img_url)) {
+            $image = file_get_contents($img_url);
+            usleep(1000000);
+            foreach ($sizes as $size => $size_value) {
+                $temp_file = Storage::disk('public')->path('tempfile_' . $size . '.jpg');
+                $imagename = mb_strtolower(Str::slug($person->slug . '_' . $size, '_'));
+                $new_file = 'person/' . ceil($person->id / 1000) . '/' . $imagename . '.jpg';
+
+                $temp_image = Image::make($image)->widen($size_value, function ($constraint) {
+                    $constraint->upsize();
+                });
+                $temp_image->save($temp_file, 90, 'jpg');
+                Storage::disk('public')->put($new_file, $temp_image);
+                $temp_image->destroy();
+            }
+            $person->update(['image' => $new_file]);
         }
-//        dd($src);
     }
 
 }

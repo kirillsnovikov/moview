@@ -46,13 +46,14 @@ class ImagePerson extends Command
      */
     public function handle()
     {
-        $this->image->putImageInFile('1/6479.html', '1/test_test_100.jpg');
-        $persons = Person::where('kp_id', '!=', null)->get();
+//        $person = Person::find(657);
+//        $this->image->putImageInFile($person);
+//        dd($person);
+//        $this->image->putImageInFile('1/6479.html', '1/test_test_100.jpg');
+        $persons = Person::where('kp_id', '!=', null)->where('image', null)->get();
         $bar = $this->output->createProgressBar(count($persons));
         foreach ($persons as $person) {
-            $filename = ceil($kp_id / 10000) . '/' . $kp_id . '.html';
-            $imagename = 'person/' . ceil($kp_id / 1000) . '/' . $person->slug . 'jpg';
-            $this->image->putImageInFile($filename, $imagename);
+            $this->image->putImageInFile($person);
             $bar->advance();
         }
         $bar->finish();

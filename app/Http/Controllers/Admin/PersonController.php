@@ -21,7 +21,7 @@ class PersonController extends Controller
     public function index()
     {
         return view('admin.person.index', [
-            'persons' => Person::orderBy('created_at', 'desc')->paginate(10),
+            'persons' => Person::orderBy('id', 'desc')->paginate(40),
             'created_by' => Person::with('userCreated'),
             'modified_by' => Person::with('userModified'),
         ]);

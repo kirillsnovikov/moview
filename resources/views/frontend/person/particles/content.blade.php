@@ -4,7 +4,7 @@
             <div class="card-poster">
                 <img class="lazy-load-image "
                 src="data:image/gif;base64,R0lGODlhAgADAIAAAP///wAAACH5BAEAAAEALAAAAAACAAMAAAICjF8AOw=="
-                data-src="https://loremflickr.com/250/375/people/?random={{$person->image}}"
+                data-src="{{asset('storage') . '/' . $person->image}}"
                 alt="Фото '{{$person->name}}'"
                 title="Фото '{{$person->name}}'"/>
                 <div class="card-loader">@include('frontend.components.loader')</div>
