@@ -3,14 +3,14 @@
 namespace App\Console\Commands\Kinoparser;
 
 use App\Person;
+use App\Services\Kinoparser\Person\PersonImageGetter;
 use Illuminate\Console\Command;
-use function dd;
 
 class ImagePerson extends Command
 {
 
     /**
-     * @var \App\Services\Kinoparser\Person\PersonImageGetter
+     * @var PersonImageGetter
      */
     private $image;
 
@@ -33,7 +33,7 @@ class ImagePerson extends Command
      *
      * @return void
      */
-    public function __construct(\App\Services\Kinoparser\Person\PersonImageGetter $image)
+    public function __construct(PersonImageGetter $image)
     {
         parent::__construct();
         $this->image = $image;
@@ -46,7 +46,8 @@ class ImagePerson extends Command
      */
     public function handle()
     {
-//        $person = Person::find(657);
+//        $person = Person::where('kp_id', 1326946)->first();
+//        $person = Person::where('kp_id', 147302)->first();
 //        $this->image->putImageInFile($person);
 //        dd($person);
 //        $this->image->putImageInFile('1/6479.html', '1/test_test_100.jpg');

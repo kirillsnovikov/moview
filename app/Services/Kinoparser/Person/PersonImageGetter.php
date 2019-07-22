@@ -8,12 +8,13 @@
 
 namespace App\Services\Kinoparser\Person;
 
-use App\Person;
-use App\Services\Kinoparser\Data\Layouts\CurlKinopoiskDefault;
+use App\Services\Kinoparser\Curl\BaseCurl;
 use App\Services\Kinoparser\Parser\XpathParser;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use function dd;
+use function mb_strtolower;
 
 /**
  * Description of PersonImageGetter
@@ -24,20 +25,20 @@ class PersonImageGetter
 {
 
     /**
+     * @var BaseCurl
+     */
+    private $curl;
+
+    /**
      * @var XpathParser
      */
     private $parser;
 
-    /**
-     * @var CurlKinopoiskDefault
-     */
-    private $data;
-
-    public function __construct(CurlKinopoiskDefault $data, XpathParser $parser)
+    public function __construct(BaseCurl $curl, XpathParser $parser)
     {
 
-        $this->data = $data;
         $this->parser = $parser;
+        $this->curl = $curl;
     }
 
     public function putImageInFile($person)
@@ -52,24 +53,27 @@ class PersonImageGetter
             'md' => 150,
             'lg' => 200,
         ];
-//        dd(($img_url && !preg_match('/PHOTO_NONE/i', $img_url)));
 
         if ($img_url && !preg_match('/photo_none/i', $img_url)) {
-            $image = file_get_contents($img_url);
-            usleep(1000000);
-            foreach ($sizes as $size => $size_value) {
-                $temp_file = Storage::disk('public')->path('tempfile_' . $size . '.jpg');
-                $imagename = mb_strtolower(Str::slug($person->slug . '_' . $size, '_'));
-                $new_file = 'person/' . ceil($person->id / 1000) . '/' . $imagename . '.jpg';
+            $ch = $this->curl->curlInit($img_url);
+            $result = $this->curl->setDefaultCurlOptions($ch)->getCurlExec($ch);
+            usleep(100000);
+            if ($result['response_code'] === 200) {
+                $image = $result['data'];
+                foreach ($sizes as $size => $size_value) {
+                    $temp_file = Storage::disk('public')->path('tempfile_' . $size . '.jpg');
+                    $imagename = mb_strtolower(Str::slug($person->slug . '_' . $size, '_'));
+                    $new_file = 'person/' . ceil($person->id / 1000) . '/' . $imagename . '.jpg';
 
-                $temp_image = Image::make($image)->widen($size_value, function ($constraint) {
-                    $constraint->upsize();
-                });
-                $temp_image->save($temp_file, 90, 'jpg');
-                Storage::disk('public')->put($new_file, $temp_image);
-                $temp_image->destroy();
+                    $temp_image = Image::make($image)->widen($size_value, function ($constraint) {
+                        $constraint->upsize();
+                    });
+                    $temp_image->save($temp_file, 90, 'jpg');
+                    Storage::disk('public')->put($new_file, $temp_image);
+                    $temp_image->destroy();
+                }
+                $person->update(['image' => $new_file]);
             }
-            $person->update(['image' => $new_file]);
         }
     }
 
