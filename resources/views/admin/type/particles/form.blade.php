@@ -27,7 +27,7 @@
     <input class="form-control" type="text" name="slug"
         @isset($type->slug)
             placeholder="Slug"
-            value="{{$type->slug or 'err'}}"
+            value="{{$type->slug ?? old('slug') ?? 'err'}}"
             readonly
         @endisset
         placeholder="Slug"
