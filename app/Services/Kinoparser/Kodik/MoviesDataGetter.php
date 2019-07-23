@@ -42,6 +42,7 @@ class MoviesDataGetter
     {
 //        dd($types, $translation, $camrip);
         $query = $this->buildQuery($types, $translation, $camrip);
+//        dd($query);
         if (empty($url)) {
             $url = self::API_LIST_URL . '?' . $query;
 //            dd($url);

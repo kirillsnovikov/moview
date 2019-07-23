@@ -64,24 +64,5 @@
             @include comma;
         }
     }
-    .other-info {
-        &__director {
-            margin: .5em 0;
-            &__label {
-                margin-right: .5em;
-            }
-            &__value {
-                @include comma;
-            }
-        }
-        &__actor {
-            margin: .5em 0;
-            &__label {
-                margin-right: .5em;
-            }
-            &__value {
-                @include comma;
-            }
-        }
-    }
+
 }

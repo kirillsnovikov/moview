@@ -1,0 +1,15 @@
+.person-block {
+    width: 100%;
+    padding: 1em 0;
+    .person {
+        &__item {
+            margin: .5em 0;
+            &__label {
+                margin-right: .5em;
+            }
+            &__value {
+                @include comma;
+            }
+        }
+    }
+}

@@ -13,15 +13,18 @@ class BlogController extends Controller
 
     public function index()
     {
-        $type_films = Type::where('title', 'фильмы')->with('movies')->first();
-        $type_serials = Type::where('title', 'сериалы')->with('movies')->first();
+//        $movie = Movie::where('imdb_id', 'tt0070874')->get();
+//        dd($movie);
+        $type_films = Type::where('title', 'фильмы')->where('published', 1)->with('movies')->first();
+        $type_serials = Type::where('title', 'сериалы')->where('published', 1)->with('movies')->first();
+//        dd($type_films);
         $films = [];
         $serials = [];
         if ($type_films) {
             $films = $type_films
                     ->movies
                     ->where('published', 1)
-                    ->where('kp_raiting', '>', 7)
+//                    ->where('kp_raiting', '>', 70000)
                     ->sortBy('premiere')
                     ->take(18)
                     ->values()
@@ -31,7 +34,7 @@ class BlogController extends Controller
             $serials = $type_serials
                     ->movies
                     ->where('published', 1)
-                    ->where('kp_raiting', '>', 7)
+//                    ->where('imdb_raiting', '>', 70000)
                     ->sortBy('premiere')
                     ->take(18)
                     ->values()

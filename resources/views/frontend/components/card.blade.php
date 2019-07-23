@@ -8,18 +8,13 @@
             alt="Постер к фильму '{{$movie->title}}'"
             title="Постер к фильму '{{$movie->title}}'"/>
             <div class="card-info">
+                @if($movie->premiere)
                 <div>
                     <time datetime="{{$movie->premiere}}">{{date('Y', strtotime($movie->premiere))}}</time>
                 </div>
+                @endif
                 <div class="card-raiting">
-                    <div class="flex-row-center">
-                        <i class="icon-kinopoisk kinopoisk"></i>
-                        <div>{{number_format(round(($movie->kp_raiting / 10000), 1), 1)}}</div>
-                    </div>
-                    <div class="flex-row-center">
-                        <i class="icon-imdb imdb"></i>
-                        <div>{{number_format(round(($movie->imdb_raiting / 10000), 1), 1)}}</div>
-                    </div>
+                    @include('frontend.components.raiting')
                 </div>
             </div>
             <div class="card-loader">@include('frontend.components.loader')</div>

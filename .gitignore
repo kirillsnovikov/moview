@@ -13,3 +13,4 @@ yarn-error.log
 .env
 /nbproject/private/
 /app/Services/Kinopaser/config/cookie.txt
+/nbproject/private

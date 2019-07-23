@@ -972,7 +972,7 @@ template {
 @font-face {
   font-family: 'icomoon';
   src: url(/fonts/icomoon.eot?2fbf44ede1ca2a2a5276f940c0ce5f85);
-  src: url(/fonts/icomoon.eot?2fbf44ede1ca2a2a5276f940c0ce5f85) format("embedded-opentype"), url(/fonts/icomoon.ttf?5dff8e6630c975faf68a1bcc60016cfc) format("truetype"), url(/fonts/icomoon.woff?cbade3535c79efe7c134c9215d8b260f) format("woff"), url(/fonts/icomoon.svg?cf6e1b26cf60d86cf3cb9b9f20a54968) format("svg");
+  src: url(/fonts/icomoon.eot?2fbf44ede1ca2a2a5276f940c0ce5f85) format("embedded-opentype"), url(/fonts/icomoon.ttf?5dff8e6630c975faf68a1bcc60016cfc) format("truetype"), url(/fonts/icomoon.woff?cbade3535c79efe7c134c9215d8b260f) format("woff"), url(/fonts/icomoon.svg?2ffe9fc162310fe0d8a19ef93e2c4e7d) format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -1511,40 +1511,6 @@ img {
   content: '';
 }
 
-.info .other-info__director {
-  margin: .5em 0;
-}
-
-.info .other-info__director__label {
-  margin-right: .5em;
-}
-
-.info .other-info__director__value span:after {
-  content: ', ';
-  white-space: pre;
-}
-
-.info .other-info__director__value span:last-child:after {
-  content: '';
-}
-
-.info .other-info__actor {
-  margin: .5em 0;
-}
-
-.info .other-info__actor__label {
-  margin-right: .5em;
-}
-
-.info .other-info__actor__value span:after {
-  content: ', ';
-  white-space: pre;
-}
-
-.info .other-info__actor__value span:last-child:after {
-  content: '';
-}
-
 .loader {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1876,6 +1842,33 @@ div.pagination ul.pagination li.active span {
 
 div.pagination ul.pagination li.active span:hover {
   cursor: default;
+}
+
+.person-block {
+  width: 100%;
+  padding: 1em 0;
+}
+
+.person-block .person__item {
+  margin: .5em 0;
+}
+
+.person-block .person__item__label {
+  margin-right: .5em;
+}
+
+.person-block .person__item__value span:after {
+  content: ', ';
+  white-space: pre;
+}
+
+.person-block .person__item__value span:last-child:after {
+  content: '';
+}
+
+.player-block {
+  width: 100%;
+  padding: 1em 0;
 }
 
 .kinopoisk {

@@ -15,7 +15,7 @@
             <p class="title cursive">{{title_case($movie->original_title)}}</p>
             @include('frontend.movie.particles.main-info')
         </div>
-        @include('frontend.movie.particles.other-info')
+        @include('frontend.movie.particles.person')
         @include('frontend.movie.particles.description')
         @include('frontend.movie.particles.player')
     </div>

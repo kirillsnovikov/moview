@@ -42,10 +42,10 @@ class MoviesDataSaver
 //            dd($data);
 
             foreach ($data['results'] as $movie) {
-//                dd(Movie::where('kp_id', $movie['kinopoisk_id'])->first());
-                if (array_key_exists('kinopoisk_id', $movie) && !Movie::where('kp_id', $movie['kinopoisk_id'])->first()) {
-
-                    $this->saveMovie($movie, $update);
+                $save_data = $this->getSaveData($movie);
+                (array_key_exists('kinopoisk_id', $movie)) ? $kp_id = $movie['kinopoisk_id'] : $kp_id = null;
+                if ($kp_id) {
+                    $this->saveMovie($kp_id, $save_data, $update);
                 }
             }
             $next_page = $data['next_page'];
@@ -53,15 +53,36 @@ class MoviesDataSaver
         }
     }
 
-    protected function saveMovie($movie, $update = null)
+    protected function saveMovie($kp_id, $save_data, $update = null)
+    {
+        if (!$update) {
+//            dd('create');
+            $movie = Movie::firstOrCreate(['kp_id' => $kp_id], $save_data);
+            $movie->update(['slug' => null]);
+        } else {
+//            dd(strcasecmp($update, 'all'));
+            $movie = Movie::where('kp_id', $kp_id)->first();
+            if (strcasecmp($update, 'all') == 0 && $movie) {
+                $movie->update($save_data);
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param type $movie
+     * @return array
+     */
+    protected function getSaveData($movie): array
     {
         $data = [];
         $data['title'] = $movie['title'];
         $data['original_title'] = (array_key_exists('title_orig', $movie)) ? $movie['title_orig'] : null;
         $data['other_title'] = (array_key_exists('other_title', $movie)) ? $movie['other_title'] : null;
-        $data['kodik_link'] = $movie['link'];
+        $data['kodik_link'] = (array_key_exists('link', $movie)) ? $movie['link'] : null;
         $data['kp_id'] = (array_key_exists('kinopoisk_id', $movie)) ? $movie['kinopoisk_id'] : null;
-        $data['imdb_id'] = (array_key_exists('imdb_id', $movie)) ? $movie['imdb_id'] : null;
+//        $data['imdb_id'] = (array_key_exists('imdb_id', $movie)) ? $movie['imdb_id'] : null;
+        $data['imdb_id'] = null;
         $data['kodik_id'] = $movie['id'];
         $data['quality'] = $movie['quality'];
         $data['translation'] = $movie['translation']['title'];
@@ -70,29 +91,14 @@ class MoviesDataSaver
         $data['created_by'] = 1;
 
         if (mb_stripos($movie['type'], 'movie') >= 0) {
-//            $type = Type::where('slug', 'films')->first();
             $type = Type::firstOrCreate([
-                        'title' => 'Фильмы',
-                        'slug' => 'films',
+                'title' => 'Фильмы',
+                'slug' => 'films',
             ]);
             $data['type_id'] = $type->id;
         }
 
-//        dd($update);
-        if (!$update) {
-//            dd('create');
-            $movie = Movie::firstOrCreate(['imdb_id' => $movie['id']], $data);
-            $movie->update(['slug' => null]);
-        } else {
-//            dd('update');
-            if (strcasecmp($update, 'all') == 0) {
-                $movie = Movie::where('imdb_id', $movie['id'])->first();
-                if ($movie) {
-//                dd($movie);
-                    $movie->update($data);
-                }
-            }
-        }
+        return $data;
     }
 
 }

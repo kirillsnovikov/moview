@@ -21,7 +21,7 @@ class Kodik extends Command
     protected $signature = 'kp:kodik
             {--up= : Update \'--update=all\' or \'--update=title\' same values}
             {--t= : Translation ID}
-            {--cr : CamRip true or false \'dfalse\' is only qualities videos}
+            {--cr : CamRip true or false \'false\' is only qualities videos}
             {types? : Input one or several types comma separated \'foreign-movie, russian-movie\'}';
 
     /**
